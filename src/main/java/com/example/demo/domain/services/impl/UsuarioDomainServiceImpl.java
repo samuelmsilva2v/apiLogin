@@ -12,6 +12,7 @@ import com.example.demo.application.dtos.CriarUsuarioRequestDto;
 import com.example.demo.application.dtos.CriarUsuarioResponseDto;
 import com.example.demo.domain.models.entities.Usuario;
 import com.example.demo.domain.services.interfaces.UsuarioDomainService;
+import com.example.demo.insfrastructure.components.JwtTokenComponent;
 import com.example.demo.insfrastructure.components.SHA256Component;
 import com.example.demo.insfrastructure.repositories.PerfilRepository;
 import com.example.demo.insfrastructure.repositories.UsuarioRepository;
@@ -27,6 +28,9 @@ public class UsuarioDomainServiceImpl implements UsuarioDomainService {
 	
 	@Autowired
 	private SHA256Component sha256Component;
+	
+	@Autowired
+	private JwtTokenComponent jwtTokenComponent;
 	
 	@Override
 	public CriarUsuarioResponseDto criarUsuario(CriarUsuarioRequestDto request) {
@@ -74,7 +78,7 @@ public class UsuarioDomainServiceImpl implements UsuarioDomainService {
 		response.setNome(usuario.getNome());
 		response.setEmail(usuario.getEmail());
 		response.setPerfil(usuario.getPerfil().getNome());
-		response.setToken(null); // TODO
+		response.setToken(jwtTokenComponent.getToken(usuario));
 		
 		return response;
 	}
