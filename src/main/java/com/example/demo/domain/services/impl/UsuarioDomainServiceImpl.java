@@ -59,8 +59,24 @@ public class UsuarioDomainServiceImpl implements UsuarioDomainService {
 
 	@Override
 	public AutenticarUsuarioResponseDto autenticarUsuario(AutenticarUsuarioRequestDto request) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		// Consultar o usuário no banco de dados atravésdo e-mail e da senha
+		var usuario = usuarioRepository.findByEmailAndSenha(request.getEmail(), sha256Component.encrypt(request.getSenha()));
+		
+		// Verificar se o usuário não foi encontrado
+		if(usuario == null)
+			throw new IllegalArgumentException("Acesso negado. Usuário não encontrado.");
+		
+		// Retornar os dados do usuário
+		var response = new AutenticarUsuarioResponseDto();
+		
+		response.setId(usuario.getId());
+		response.setNome(usuario.getNome());
+		response.setEmail(usuario.getEmail());
+		response.setPerfil(usuario.getPerfil().getNome());
+		response.setToken(null); // TODO
+		
+		return response;
 	}
 
 }
