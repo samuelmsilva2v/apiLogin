@@ -54,7 +54,7 @@ mvn spring-boot:run
 ```
 A Supermarket API estará disponível em http://localhost:8081/swagger-ui/index.html#/
 
---
+---
 
 # Login API
 [🇧🇷 Leia em Português](#api-login)
